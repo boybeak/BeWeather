@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">BeWeather</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="n_centigrade">%1$s℃</string>
 </resources>

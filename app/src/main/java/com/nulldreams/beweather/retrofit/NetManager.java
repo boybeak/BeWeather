@@ -51,7 +51,7 @@ public class NetManager {
         mService = retrofit.create(NetService.class);
     }
 
-    public void getA (double longitude, double latitude, Callback<Response<RealTime>> callback) {
+    public void getRealTime(double longitude, double latitude, Callback<Response<RealTime>> callback) {
         Call<Response<RealTime>> responseCall = mService.getRealTime(longitude, latitude);
         responseCall.enqueue(callback);
     }
