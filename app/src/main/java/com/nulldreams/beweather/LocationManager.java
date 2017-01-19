@@ -36,6 +36,7 @@ public class LocationManager {
             if (mTempLocationListener != null) {
                 mTempLocationListener.onLocationChanged(aMapLocation);
                 mTempLocationListener = null;
+                mLocationClient.stopLocation();
             }
         }
     };
