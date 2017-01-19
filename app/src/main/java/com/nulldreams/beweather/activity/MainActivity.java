@@ -20,6 +20,7 @@ import com.nulldreams.beweather.LocationManager;
 import com.nulldreams.beweather.R;
 import com.nulldreams.beweather.adapter.RealTimeDecoration;
 import com.nulldreams.beweather.adapter.RealTimeDelegate;
+import com.nulldreams.beweather.module.Forecast;
 import com.nulldreams.beweather.module.RealTime;
 import com.nulldreams.beweather.retrofit.NetManager;
 import com.nulldreams.beweather.retrofit.Response;
@@ -81,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Response<RealTime>> call, Throwable t) {
+
+                    }
+                });
+                NetManager.getInstance(MainActivity.this).getForecast(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<Forecast>>() {
+                    @Override
+                    public void onResponse(Call<Response<Forecast>> call, retrofit2.Response<Response<Forecast>> response) {
+                        Log.v(TAG, "onResponse " + response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<Forecast>> call, Throwable t) {
 
                     }
                 });

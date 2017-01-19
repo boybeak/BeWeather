@@ -3,6 +3,7 @@ package com.nulldreams.beweather.retrofit;
 import android.content.Context;
 
 import com.google.gson.GsonBuilder;
+import com.nulldreams.beweather.module.Forecast;
 import com.nulldreams.beweather.module.RealTime;
 
 import java.io.IOException;
@@ -56,6 +57,11 @@ public class NetManager {
 
     public void getRealTime(double longitude, double latitude, Callback<Response<RealTime>> callback) {
         Call<Response<RealTime>> responseCall = mService.getRealTime(longitude, latitude);
+        responseCall.enqueue(callback);
+    }
+
+    public void getForecast(double longitude, double latitude, Callback<Response<Forecast>> callback) {
+        Call<Response<Forecast>> responseCall = mService.getForecast(longitude, latitude);
         responseCall.enqueue(callback);
     }
 }
