@@ -38,7 +38,7 @@ public class NetManager {
         mContext = context;
         Properties properties = new Properties();
         try {
-            InputStream is = mContext.getAssets().open("token");
+            InputStream is = mContext.getAssets().open("property");
             properties.load(is);
             mToken = properties.getProperty("token");
         } catch (IOException e) {
