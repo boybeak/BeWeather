@@ -5,5 +5,5 @@ package com.nulldreams.beweather.retrofit;
  */
 
 public class Result {
-    public String ok;
+    public String status;
 }

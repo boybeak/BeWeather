@@ -2,6 +2,7 @@ package com.nulldreams.beweather.retrofit;
 
 import android.content.Context;
 
+import com.google.gson.GsonBuilder;
 import com.nulldreams.beweather.module.RealTime;
 
 import java.io.IOException;
@@ -44,9 +45,11 @@ public class NetManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        GsonBuilder builder = new GsonBuilder();
+        builder.setDateFormat("yyyy-MM-dd HH:mm");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.caiyunapp.com/v2/" + mToken + "/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(builder.create()))
                 .build();
         mService = retrofit.create(NetService.class);
     }

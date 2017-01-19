@@ -24,8 +24,4 @@ public class RealTime extends Result {
         public float intensity;
         public String datasource;
     }
-    public class Wind {
-        public float direction;
-        public float speed;
-    }
 }
