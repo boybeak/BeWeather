@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">BeWeather</string>
 
-    <string name="n_centigrade">%1$s℃</string>
+    <string name="n_centigrade">%1$s°</string>
+    <string name="n_kmph">%1$s km/h</string>
+
+    <string name="text_clear_day">Clear Day</string>
+    <string name="text_clear_night">Clear Night</string>
+    <string name="text_partly_cloudy_day">Partly Cloudy Day</string>
+    <string name="text_partly_cloudy_night">Partly Cloudy Day</string>
+    <string name="text_cloudy">Cloudy</string>
+    <string name="text_rain">Rain</string>
+    <string name="text_snow">Snow</string>
+    <string name="text_wind">Wind</string>
+    <string name="text_fog">Fog</string>
+    <string name="text_haze">Haze</string>
+    <string name="text_sleet">Sleet</string>
+
+    <string name="text_row_key_wind">Wind</string>
 </resources>

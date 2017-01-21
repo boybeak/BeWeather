@@ -69,14 +69,17 @@ public class MainActivity extends AppCompatActivity {
     private void getLocationAndRealTime () {
         LocationManager.getInstance(this).startLocation(new AMapLocationListener() {
             @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
+            public void onLocationChanged(final AMapLocation aMapLocation) {
                 Log.v(TAG, "onLocationChanged " + aMapLocation.getLongitude() + " " + aMapLocation.getLatitude()
                         + " address=" + aMapLocation.getCity() + " address=" + aMapLocation.getAddress());
                 NetManager.getInstance(MainActivity.this).getRealTime(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<RealTime>>() {
                     @Override
                     public void onResponse(Call<Response<RealTime>> call, retrofit2.Response<Response<RealTime>> response) {
                         RealTime realTime = response.body().result;
-                        mAdapter.add(new RealTimeDelegate(realTime));
+                        RealTimeDelegate delegate = new RealTimeDelegate(realTime);
+                        delegate.setCountry(aMapLocation.getCountry());
+                        delegate.setCity(aMapLocation.getCity());
+                        mAdapter.add(delegate);
                         mAdapter.notifyDataSetChanged();
                     }
 
