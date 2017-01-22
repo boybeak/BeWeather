@@ -25,4 +25,30 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="real_time_key_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">@color/weather_icon_color</item>
+    </style>
+    <style name="real_time_value_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textColor">@color/weather_icon_color</item>
+    </style>
+
+    <style name="bg_weather_gradient_style">
+        <item name="android:centerX">15%</item>
+        <item name="android:centerY">40%</item>
+        <item name="android:type">radial</item>
+        <item name="android:gradientRadius">90dp</item>
+    </style>
+
+    <style name="bg_weather_corners_style">
+        <item name="android:topLeftRadius">@dimen/radius_card</item>
+        <item name="android:topRightRadius">@dimen/radius_card</item>
+    </style>
 </resources>

@@ -1,10 +1,12 @@
-package com.nulldreams.beweather.retrofit;
+package com.nulldreams.beweather;
 
 import android.content.Context;
 
 import com.google.gson.GsonBuilder;
 import com.nulldreams.beweather.module.Forecast;
 import com.nulldreams.beweather.module.RealTime;
+import com.nulldreams.beweather.retrofit.NetService;
+import com.nulldreams.beweather.retrofit.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,13 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by gaoyunfei on 2017/1/18.
  */
 
-public class NetManager {
+public class WeatherManager {
 
-    private static NetManager sManager = null;
+    private static WeatherManager sManager = null;
 
-    public synchronized static NetManager getInstance (Context context) {
+    public synchronized static WeatherManager getInstance (Context context) {
         if (sManager == null) {
-            sManager = new NetManager(context.getApplicationContext());
+            sManager = new WeatherManager(context.getApplicationContext());
         }
         return sManager;
     }
@@ -36,7 +38,9 @@ public class NetManager {
 
     private NetService mService;
 
-    private NetManager (Context context) {
+    private RealTime mLastRealTime;
+
+    private WeatherManager(Context context) {
         mContext = context;
         Properties properties = new Properties();
         try {
@@ -55,13 +59,32 @@ public class NetManager {
         mService = retrofit.create(NetService.class);
     }
 
-    public void getRealTime(double longitude, double latitude, Callback<Response<RealTime>> callback) {
+    public void getRealTime(double longitude, double latitude, final Callback<Response<RealTime>> callback) {
         Call<Response<RealTime>> responseCall = mService.getRealTime(longitude, latitude);
-        responseCall.enqueue(callback);
+        responseCall.enqueue(new Callback<Response<RealTime>>() {
+            @Override
+            public void onResponse(Call<Response<RealTime>> call, retrofit2.Response<Response<RealTime>> response) {
+                mLastRealTime = response.body().result;
+                if (callback != null) {
+                    callback.onResponse(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response<RealTime>> call, Throwable t) {
+                if (callback != null) {
+                    callback.onFailure(call, t);
+                }
+            }
+        });
     }
 
     public void getForecast(double longitude, double latitude, Callback<Response<Forecast>> callback) {
         Call<Response<Forecast>> responseCall = mService.getForecast(longitude, latitude);
         responseCall.enqueue(callback);
+    }
+
+    public RealTime getLastRealTime () {
+        return mLastRealTime;
     }
 }

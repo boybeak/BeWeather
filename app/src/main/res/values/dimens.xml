@@ -3,6 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="margin_real_time">8dp</dimen>
+    <dimen name="margin_real_time">24dp</dimen>
     <dimen name="radius_card">4dp</dimen>
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:startColor="#fcf1cf"
-        android:endColor="#f4dc95"
+        android:startColor="#c2ebfc"
+        android:endColor="#ade7ff"
         style="@style/bg_weather_gradient_style"
         />
     <corners

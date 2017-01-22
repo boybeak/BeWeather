@@ -17,4 +17,6 @@
     <string name="text_sleet">Sleet</string>
 
     <string name="text_row_key_wind">Wind</string>
+    <string name="text_row_key_humidity">Humidity</string>
+    <string name="text_row_key_pm25">PM2.5</string>
 </resources>

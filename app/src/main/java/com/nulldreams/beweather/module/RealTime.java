@@ -1,5 +1,7 @@
 package com.nulldreams.beweather.module;
 
+import android.text.TextUtils;
+
 import com.nulldreams.beweather.retrofit.Result;
 
 /**
@@ -12,6 +14,10 @@ public class RealTime extends Result {
     public int pm25;
     public Precipitation precipitation;
     public Wind wind;
+
+    public String getHumidityText () {
+        return humidity * 100 + "%";
+    }
 
     public class Precipitation {
         public Nearest nearest;

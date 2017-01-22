@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 import com.nulldreams.adapter.DelegateAdapter;
 import com.nulldreams.beweather.LocationManager;
@@ -22,7 +21,7 @@ import com.nulldreams.beweather.adapter.RealTimeDecoration;
 import com.nulldreams.beweather.adapter.RealTimeDelegate;
 import com.nulldreams.beweather.module.Forecast;
 import com.nulldreams.beweather.module.RealTime;
-import com.nulldreams.beweather.retrofit.NetManager;
+import com.nulldreams.beweather.WeatherManager;
 import com.nulldreams.beweather.retrofit.Response;
 
 import retrofit2.Call;
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onLocationChanged(final AMapLocation aMapLocation) {
                 Log.v(TAG, "onLocationChanged " + aMapLocation.getLongitude() + " " + aMapLocation.getLatitude()
                         + " address=" + aMapLocation.getCity() + " address=" + aMapLocation.getAddress());
-                NetManager.getInstance(MainActivity.this).getRealTime(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<RealTime>>() {
+                WeatherManager.getInstance(MainActivity.this).getRealTime(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<RealTime>>() {
                     @Override
                     public void onResponse(Call<Response<RealTime>> call, retrofit2.Response<Response<RealTime>> response) {
                         RealTime realTime = response.body().result;
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                NetManager.getInstance(MainActivity.this).getForecast(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<Forecast>>() {
+                WeatherManager.getInstance(MainActivity.this).getForecast(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<Forecast>>() {
                     @Override
                     public void onResponse(Call<Response<Forecast>> call, retrofit2.Response<Response<Forecast>> response) {
                         Log.v(TAG, "onResponse " + response.message());

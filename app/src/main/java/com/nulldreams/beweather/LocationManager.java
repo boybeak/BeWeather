@@ -72,4 +72,9 @@ public class LocationManager {
         mTempLocationListener = listener;
         mLocationClient.startLocation();
     }
+
+    public AMapLocation getLastLocation () {
+        return mLocationClient.getLastKnownLocation();
+    }
+
 }

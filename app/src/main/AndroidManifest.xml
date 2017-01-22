@@ -43,6 +43,13 @@
             </intent-filter>
         </activity>
         <service android:name="com.amap.api.location.APSService"/>
+        <receiver android:name=".provider.WeatherProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/weather_provider" />
+        </receiver>
     </application>
 
 </manifest>

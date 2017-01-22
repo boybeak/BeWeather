@@ -37,19 +37,4 @@ public class RealTimeDelegate extends AnnotationDelegate<RealTime> {
     public void setCity(String city) {
         this.city = city;
     }
-
-    public String getDirection () {
-        if (TextUtils.isEmpty(direction)) {
-            float dir = getSource().wind.direction;
-            if (dir >= 337.5 || dir <= 22.5) direction = "N";
-            if (dir > 22.5 &&  dir < 67.5) direction = "NE";
-            if (dir >= 67.5 && dir <= 112.5) direction = "E";
-            if (dir > 112.5 && dir < 157.5) direction = "SE";
-            if (dir >= 157.5 && dir <= 202.5) direction = "S";
-            if (dir > 202.5 && dir < 247.5) direction = "SW";
-            if (dir >= 247.5 && dir <= 292.5) direction = "W";
-            if (dir > 292.5 && dir < 337.5) direction = "NW";
-        }
-        return direction;
-    }
 }
