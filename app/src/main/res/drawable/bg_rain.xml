@@ -3,9 +3,13 @@
     <gradient
         android:startColor="#c2ebfc"
         android:endColor="#ade7ff"
-        style="@style/bg_weather_gradient_style"
+        android:centerX="15%"
+        android:centerY="40%"
+        android:type="radial"
+        android:gradientRadius="90dp"
         />
     <corners
-        style="@style/bg_weather_corners_style"
+        android:topLeftRadius="@dimen/radius_card"
+        android:topRightRadius="@dimen/radius_card"
         />
 </shape>
