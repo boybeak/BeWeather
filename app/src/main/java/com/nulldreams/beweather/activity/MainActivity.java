@@ -1,6 +1,7 @@
 package com.nulldreams.beweather.activity;
 
 import android.Manifest;
+import android.app.WallpaperManager;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    private ImageView mBgIv;
     private RecyclerView mMainRv;
 
     private DelegateAdapter mAdapter;
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mBgIv = (ImageView)findViewById(R.id.main_bg_image);
+
+        mBgIv.setImageDrawable(WallpaperManager.getInstance(this).getFastDrawable());
 
         mMainRv = (RecyclerView)findViewById(R.id.main_rv);
         mMainRv.setLayoutManager(new LinearLayoutManager(this));
@@ -66,39 +73,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLocationAndRealTime () {
-        LocationManager.getInstance(this).startLocation(new AMapLocationListener() {
+
+        WeatherManager.getInstance(this).getForecastThisLocation(new WeatherManager.WeatherCallback() {
             @Override
-            public void onLocationChanged(final AMapLocation aMapLocation) {
-                Log.v(TAG, "onLocationChanged " + aMapLocation.getLongitude() + " " + aMapLocation.getLatitude()
-                        + " address=" + aMapLocation.getCity() + " address=" + aMapLocation.getAddress());
-                WeatherManager.getInstance(MainActivity.this).getRealTime(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<RealTime>>() {
-                    @Override
-                    public void onResponse(Call<Response<RealTime>> call, retrofit2.Response<Response<RealTime>> response) {
-                        RealTime realTime = response.body().result;
-                        RealTimeDelegate delegate = new RealTimeDelegate(realTime);
-                        delegate.setCountry(aMapLocation.getCountry());
-                        delegate.setCity(aMapLocation.getCity());
-                        mAdapter.add(delegate);
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Response<RealTime>> call, Throwable t) {
-
-                    }
-                });
-                WeatherManager.getInstance(MainActivity.this).getForecast(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<Forecast>>() {
-                    @Override
-                    public void onResponse(Call<Response<Forecast>> call, retrofit2.Response<Response<Forecast>> response) {
-                        Log.v(TAG, "onResponse " + response.message());
-                    }
-
-                    @Override
-                    public void onFailure(Call<Response<Forecast>> call, Throwable t) {
-
-                    }
-                });
+            public void onResponse(AMapLocation location, RealTime time) {
+                RealTimeDelegate delegate = new RealTimeDelegate(time);
+                delegate.setCountry(location.getCountry());
+                delegate.setCity(location.getCity());
+                delegate.setDistrict(location.getDistrict());
+                mAdapter.add(delegate);
+                mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

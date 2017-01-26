@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="@drawable/bg_sunny"
         >
         <ImageView
             android:id="@+id/real_time_icon"
@@ -25,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/weather_icon_color"
             android:layout_toRightOf="@+id/real_time_icon"
             android:gravity="right"
             android:fontFamily="monospace"
@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="@color/weather_icon_color"
             android:layout_toRightOf="@+id/real_time_icon"
             android:layout_below="@+id/real_time_skycon"
             android:gravity="right"
@@ -44,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/weather_icon_color"
             android:gravity="right"
             android:fontFamily="monospace"
             android:layout_below="@+id/real_time_temperature"
@@ -54,7 +56,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@drawable/bg_real_time_bottom">
+        >
+        <!--android:background="@drawable/bg_real_time_bottom"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,5 +105,14 @@
                 style="@style/real_time_value_style"
                 />
         </LinearLayout>
+        <TextView
+            android:id="@+id/real_time_update_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@android:color/darker_gray"
+            />
     </LinearLayout>
 </LinearLayout>

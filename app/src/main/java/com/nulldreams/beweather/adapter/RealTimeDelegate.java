@@ -11,10 +11,10 @@ import com.nulldreams.beweather.module.Wind;
 /**
  * Created by gaoyunfei on 2017/1/18.
  */
-@DelegateInfo(layoutID = R.layout.layout_real_time, holderClass = RealTimeHolder.class)
+@DelegateInfo(layoutID = R.layout.layout_real_time_item, holderClass = RealTimeHolder.class)
 public class RealTimeDelegate extends AnnotationDelegate<RealTime> {
 
-    private String country, city;
+    private String country, city, district;
 
     private String direction;
 
@@ -36,5 +36,13 @@ public class RealTimeDelegate extends AnnotationDelegate<RealTime> {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }

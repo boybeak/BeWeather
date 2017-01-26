@@ -6,5 +6,5 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="weather_icon_color">#80000000</color>
+    <color name="weather_icon_color">#ffffff</color>
 </resources>

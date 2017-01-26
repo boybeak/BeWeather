@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.nulldreams.adapter.AbsViewHolder;
 import com.nulldreams.adapter.DelegateAdapter;
+import com.nulldreams.beweather.Formatters;
 import com.nulldreams.beweather.R;
 import com.nulldreams.beweather.module.RealTime;
 
@@ -26,7 +27,7 @@ public class RealTimeHolder extends AbsViewHolder<RealTimeDelegate> {
     private ImageView mSkyconIv;
     private TextView mTemperatureTv, mSkyconTv,
             mLocationTv, mWindTv, mHumidityTv,
-            mPm25Tv;
+            mPm25Tv, mUpdateAtTv;
 
     public RealTimeHolder(View itemView) {
         super(itemView);
@@ -38,19 +39,21 @@ public class RealTimeHolder extends AbsViewHolder<RealTimeDelegate> {
         mWindTv = (TextView)findViewById(R.id.real_time_wind);
         mHumidityTv = (TextView)findViewById(R.id.real_time_humidity);
         mPm25Tv = (TextView)findViewById(R.id.real_time_pm25);
+        mUpdateAtTv = (TextView)findViewById(R.id.real_time_update_at);
     }
 
     @Override
     public void onBindView(final Context context, RealTimeDelegate realTimeDelegate, int position, DelegateAdapter adapter) {
         RealTime realTime = realTimeDelegate.getSource();
         mSkyconIv.setImageResource(realTime.skycon.getIconRes());
-        mTopView.setBackgroundResource(realTime.skycon.getBgRes());
+        /*mTopView.setBackgroundResource(realTime.skycon.getBgRes());*/
         mTemperatureTv.setText(context.getString(R.string.n_centigrade, (int)realTime.temperature + ""));
         mSkyconTv.setText(realTime.skycon.getTextRes());
-        mLocationTv.setText(realTimeDelegate.getCity() + " " + realTimeDelegate.getCountry());
+        mLocationTv.setText(realTimeDelegate.getDistrict() + " " + realTimeDelegate.getCity() + " " + realTimeDelegate.getCountry());
         mWindTv.setText(realTime.wind.getDirection() + "  " + context.getString(R.string.n_kmph, realTime.wind.speed + ""));
         mHumidityTv.setText(realTime.getHumidityText());
         mPm25Tv.setText(realTime.pm25 + "");
+        mUpdateAtTv.setText(Formatters.HH_mm_ss.format(realTime.getUpdateAt()));
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

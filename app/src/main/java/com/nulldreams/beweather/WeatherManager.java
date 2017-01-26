@@ -1,15 +1,28 @@
 package com.nulldreams.beweather;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
+import android.util.Log;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.google.gson.GsonBuilder;
 import com.nulldreams.beweather.module.Forecast;
 import com.nulldreams.beweather.module.RealTime;
+import com.nulldreams.beweather.provider.UpdateReceiver;
+import com.nulldreams.beweather.provider.WeatherProvider;
 import com.nulldreams.beweather.retrofit.NetService;
 import com.nulldreams.beweather.retrofit.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Properties;
 
 import retrofit2.Call;
@@ -22,6 +35,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class WeatherManager {
+
+    private static final String TAG = WeatherManager.class.getSimpleName();
 
     private static WeatherManager sManager = null;
 
@@ -38,7 +53,10 @@ public class WeatherManager {
 
     private NetService mService;
 
+    private AMapLocation mLastLocation;
     private RealTime mLastRealTime;
+
+    private long mLastAppWidgetUpdateTime = 0;
 
     private WeatherManager(Context context) {
         mContext = context;
@@ -84,7 +102,57 @@ public class WeatherManager {
         responseCall.enqueue(callback);
     }
 
+    public void getForecastThisLocation (final WeatherCallback callback) {
+        LocationManager.getInstance(mContext).startLocation(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(final AMapLocation aMapLocation) {
+                mLastLocation = aMapLocation;
+                getRealTime(aMapLocation.getLongitude(), aMapLocation.getLatitude(), new Callback<Response<RealTime>>() {
+                    @Override
+                    public void onResponse(Call<Response<RealTime>> call, retrofit2.Response<Response<RealTime>> response) {
+                        mLastRealTime = response.body().result;
+                        mLastRealTime.setUpdateAt(new Date());
+                        if (callback != null) {
+                            callback.onResponse(aMapLocation, mLastRealTime);
+                        }
+                        long now = SystemClock.elapsedRealtime();
+                        if (now - mLastAppWidgetUpdateTime > 3600000) {
+                            Intent it = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                            int[] ids = AppWidgetManager.getInstance(mContext).getAppWidgetIds(new ComponentName(mContext, WeatherProvider.class));
+                            it.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                            mContext.sendBroadcast(it);
+
+                            AlarmManager alarmManager = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
+                            Intent timeIt = new Intent(UpdateReceiver.ACTION_WEATHER_UPDATE);
+                            PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, timeIt, 0);
+                            alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 3600000, pi);
+
+                            mLastAppWidgetUpdateTime = now;
+
+                            Log.v(TAG, "getForecastThisLocation");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<RealTime>> call, Throwable t) {
+                        /*if (callback != null) {
+                            callback.onFailure(call, t);
+                        }*/
+                    }
+                });
+            }
+        });
+    }
+
     public RealTime getLastRealTime () {
         return mLastRealTime;
+    }
+
+    public AMapLocation getLastLocation () {
+        return mLastLocation;
+    }
+
+    public interface WeatherCallback {
+        public void onResponse (AMapLocation location, RealTime time);
     }
 }
